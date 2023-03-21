@@ -3,7 +3,7 @@ local component = require("component")
 local driver = {}
 
 --------------------------------------------------------------------------------
----------------------------------- Item Class ----------------------------------
+------------------------------- ItemStack  Class -------------------------------
 --------------------------------------------------------------------------------
 
 local ItemStack = {}
@@ -11,12 +11,12 @@ ItemStack.__index = ItemStack
 
 local function ItemStack_new(item)
   checkArg(1, item, "table");
-  local out = {
+  local output = {
     data = item.getValue1(),
     quantity = item.getValue2()
   }
-  setmetatable(out, ItemStack)
-  return out
+  setmetatable(output, ItemStack)
+  return output
 end
 
 function ItemStack:getName()
@@ -29,6 +29,28 @@ function ItemStack:getName()
   end
   return self.data.getName()
 end
+
+--------------------------------------------------------------------------------
+----------------------------- ItemCollection Class -----------------------------
+--------------------------------------------------------------------------------
+
+local ItemCollection = {}
+ItemCollection.__index = ItemCollection
+
+local function ItemCollection_new(items)
+  checkArg(1, item, "table");
+  local output = {}
+  output.searchTable = {}
+  for i,item in pairs(items) do
+    local itemStack = ItemStack_new(item)
+    table[i] = itemStack
+    output.searchTable[itemStack:getName()] = i
+  end
+  setmetatable(output, ItemCollection);
+  return output
+end
+
+
 
 --------------------------------------------------------------------------------
 -------------------------------- Private Driver --------------------------------
@@ -49,11 +71,7 @@ function driver.getItems()
   if not pipe.getAvailableItems and not pipe.makeRequest then
     error("Logistics pipe is not a a requesting pipe")
   end
-  local output = {}
-  for _,item in pairs(pipe.getAvailableItems()) do
-    table.insert(output, ItemStack_new(item))
-  end
-  return output
+  return ItemCollection_new(pipe.getAvailableItems())
 end
 
 return driver
