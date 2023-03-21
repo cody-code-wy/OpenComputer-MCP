@@ -43,6 +43,7 @@ function driver.getItems()
   end
   local output = {}
   for _,item in pairs(pipe.getAvailableItems()) do
+    print("Found an iteam");
     table.insert(output, ItemStack.new(item))
   end
   return output
