@@ -8,13 +8,15 @@ local driver = {}
 
 local ItemStack = {}
 
-function ItemStack.new(item)
+local function ItemStack_new(item)
   checkArg(1, item, "table");
   local out = {
     data = item.getValue1(),
     quantity = item.getValue2()
   }
-  setmetatable(out, ItemStack)
+  for k,v in pairs(ItemStack) do
+    out[k] = v
+  end
   return out
 end
 
@@ -43,7 +45,7 @@ function driver.getItems()
   end
   local output = {}
   for _,item in pairs(pipe.getAvailableItems()) do
-    table.insert(output, ItemStack.new(item))
+    table.insert(output, ItemStack_new(item))
   end
   return output
 end
