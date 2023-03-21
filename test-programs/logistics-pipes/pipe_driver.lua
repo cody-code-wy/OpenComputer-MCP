@@ -43,7 +43,7 @@ local function ItemCollection_new(items)
   output.searchTable = {}
   for i,item in pairs(items) do
     local itemStack = ItemStack_new(item)
-    table[i] = itemStack
+    output[i] = itemStack
     output.searchTable[itemStack:getName()] = i
   end
   setmetatable(output, ItemCollection);
