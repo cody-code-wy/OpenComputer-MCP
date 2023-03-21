@@ -20,6 +20,13 @@ local function ItemStack_new(item)
 end
 
 function ItemStack:getName()
+  --- check for custom name
+  if self.data.hasTagCompount() then
+    local nbt = self.data.getTagCompount()
+    if nbt.value.display and nbt.value.display.value.Name then
+      return nbt.value.display.value.Name.value
+    end
+  end
   return self.data.getName()
 end
 
