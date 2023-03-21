@@ -9,7 +9,7 @@ local driver = {}
 local ItemStack = {}
 
 function ItemStack.new(item)
-  checkARg(1, item, "table");
+  checkArg(1, item, "table");
   local out = {
     data = item.getValue1(),
     quantity = item.getValue2()
@@ -43,7 +43,6 @@ function driver.getItems()
   end
   local output = {}
   for _,item in pairs(pipe.getAvailableItems()) do
-    print("Found an iteam");
     table.insert(output, ItemStack.new(item))
   end
   return output
