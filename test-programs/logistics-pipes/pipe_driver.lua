@@ -38,7 +38,7 @@ local ItemCollection = {}
 ItemCollection.__index = ItemCollection
 
 local function ItemCollection_new(items)
-  checkArg(1, item, "table");
+  checkArg(1, items, "table");
   local output = {}
   output.searchTable = {}
   for i,item in pairs(items) do
