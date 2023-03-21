@@ -7,6 +7,7 @@ local driver = {}
 --------------------------------------------------------------------------------
 
 local ItemStack = {}
+ItemStack.__index = ItemStack
 
 local function ItemStack_new(item)
   checkArg(1, item, "table");
@@ -14,9 +15,7 @@ local function ItemStack_new(item)
     data = item.getValue1(),
     quantity = item.getValue2()
   }
-  for k,v in pairs(ItemStack) do
-    out[k] = v
-  end
+  setmetatable(out, ItemStack)
   return out
 end
 
