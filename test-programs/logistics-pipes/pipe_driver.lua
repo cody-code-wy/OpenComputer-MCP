@@ -23,11 +23,22 @@ function ItemStack:getName()
   --- check for custom name
   if self.data.hasTagCompound() then
     local nbt = self.data.getTagCompound()
-    if nbt.value.display and nbt.value.display.value.Name then
+    -- if Long arry is in the NBT complex logistic pipes fails to
+    -- serialize the NBT resulting in a empty nbt
+    if not nbt then
+      return self.data.getName() .. " <NBT ERROR>"
+    elseif nbt.value.display and nbt.value.display.value.Name then
       return nbt.value.display.value.Name.value
     end
   end
   return self.data.getName()
+end
+
+function ItemStack:getId()
+  if not self.data.hasTagCompound() then
+    return self.data.getIdName() .. "." .. self.data.getData()
+  end
+  return "complex"
 end
 
 --------------------------------------------------------------------------------
